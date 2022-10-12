@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 <template>
   <div>
-      <img class="rounded-md" :src=props.imgSource alt="">
+      <img class="rounded-md object-cover h-80 w-full object-cover" :src=props.imgSource alt="img">
   </div>
 </template>
 

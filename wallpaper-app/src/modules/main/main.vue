@@ -11,7 +11,7 @@ onMounted(() => {
 
 const fetchWallPaper = async () : Promise<Object>  => {
   try {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/albums/1/photos');
+    const response = await axios.get('https://picsum.photos/v2/list?page=3&limit=16');
     return response.data;
   } catch (err) {
     console.log(err);
@@ -25,8 +25,8 @@ const getWallPaper = async() : Promise<void> => {
 </script>
 
 <template>
-  <div class="p-2 grid grid-cols-3 gap-x-4">
-    <wall-paper-card v-for="photoItem in listOfPhotos" :key="photoItem.id" :img-source="photoItem.url"></wall-paper-card>
+  <div class="p-4 grid grid-cols-4 gap-4">
+    <wall-paper-card v-for="photoItem in listOfPhotos" :key="photoItem.id" :img-source="photoItem.download_url"></wall-paper-card>
   </div>
 
 </template>
