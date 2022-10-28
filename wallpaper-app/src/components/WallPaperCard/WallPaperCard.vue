@@ -26,12 +26,11 @@ let isImageOpen: Ref<boolean> = ref(false)
         @click="isImageOpen = true"
         class="rounded-md object-cover h-80 w-full object-cover opacity-0 transition blur-md border-2 border-transparent hover:border-gray-400"
         :class="{'opacity-100 blur-0': isLoaded}" :src=props.imgSource
+        v-show="!isImageOpen"
     />
-    <fullscreen v-model="isImageOpen" class="flex justify-center">
+    <fullscreen v-model="isImageOpen" class="flex justify-center" @change="isImageOpen = !isImageOpen">
       <img :src="props.imgSource" v-if="isImageOpen">
     </fullscreen>
   </div>
 </template>
 
-<style scoped>
-</style>

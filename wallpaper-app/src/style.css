@@ -4,9 +4,10 @@
 
 :root {
   --main-black: #242424;
-  --main-whit: #ffffff;
+  --main-white: #ffffff;
 }
 
 html {
   background-color: var(--main-black);
+  color: var(--main-white);
 }

@@ -2,6 +2,12 @@
 import {ref, onMounted} from 'vue'
 import axios from 'axios'
 import WallPaperCard from '../../components/WallPaperCard/WallPaperCard.vue'
+import { useStore } from 'vuex'
+import { key } from '../../store'
+
+const store = useStore(key)
+
+store.commit('increment')
 
 let listOfPhotos = ref({})
 let listOfRadioStation = ref({})
