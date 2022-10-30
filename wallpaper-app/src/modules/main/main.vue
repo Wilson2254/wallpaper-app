@@ -1,49 +1,24 @@
 <script setup lang="ts">
-import {ref, onMounted} from 'vue'
-import axios from 'axios'
+import {ref} from 'vue'
 import WallPaperCard from '../../components/WallPaperCard/WallPaperCard.vue'
 import { useStore } from 'vuex'
 import { key } from '../../store'
 
 const store = useStore(key)
 
-store.commit('increment')
-
 let listOfPhotos = ref({})
-let listOfRadioStation = ref({})
-
-onMounted(() => {
-  getWallPaper()
-  getRadioStation()
-})
-
-const fetchWallPaper = async (): Promise<Object> => {
-  try {
-    const response = await axios.get('https://picsum.photos/v2/list?page=1&limit=16');
-    return response.data;
-  } catch (err) {
-    console.log(err);
-    return {}
-  }
-}
-
-const fetchRadioStation = async (): Promise<Object> => {
-  try {
-    const response = await axios.get('https://somafm.com/channels.json');
-    return response.data;
-  } catch (err) {
-    console.log(err);
-    return {}
-  }
-}
 
 const getWallPaper = async (): Promise<void> => {
-  listOfPhotos.value = await fetchWallPaper()
+  await store.dispatch('getWallPaper')
+  listOfPhotos.value = store.getters.listOfPhotos
 }
 
-const getRadioStation = async (): Promise<void> => {
-  listOfRadioStation.value = await fetchRadioStation()
+const getRadioStationChannels = async (): Promise<void> => {
+  await store.dispatch('getRadioStationChannels')
 }
+
+getWallPaper()
+getRadioStationChannels()
 
 </script>
 
