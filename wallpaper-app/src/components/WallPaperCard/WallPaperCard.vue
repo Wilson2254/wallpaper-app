@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VLazyImage from "v-lazy-image"
 import PreloaderBlock from "../../widgets/PreloaderBlock.vue"
-import {ref, Ref, reactive} from "vue";
+import {ref, Ref} from "vue";
 
 interface Props {
   imgSource?: string
