@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import VLazyImage from "v-lazy-image"
 import PreloaderBlock from "../../widgets/PreloaderBlock.vue"
+import RadioPlayer from '../RadioPlayer/RadioPlayer.vue'
 import {ref, Ref} from "vue";
 
 interface Props {
@@ -29,8 +30,27 @@ let isImageOpen: Ref<boolean> = ref(false)
         v-show="!isImageOpen"
     />
     <fullscreen v-model="isImageOpen" class="flex justify-center" @change="isImageOpen = !isImageOpen">
+      <Transition name="slide">
+        <radio-player v-if="isImageOpen"/>
+      </Transition>
       <img :src="props.imgSource" v-if="isImageOpen">
     </fullscreen>
   </div>
 </template>
+
+<style scoped>
+.slide-enter-active {
+  transition: all 0.2s ease-out;
+}
+
+.slide-leave-active {
+  transition: all 0.2s ease-out;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(-50%) translateY(-100px);
+  left: 50%;
+}
+</style>
 

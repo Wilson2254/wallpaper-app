@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const fetchWallPaper = async (): Promise<Object> => {
     try {
-        const response = await axios.get('https://picsum.photos/v2/list?page=1&limit=16');
+        const response = await axios.get('https://picsum.photos/v2/list?page=2&limit=16');
         return response.data;
     } catch (error) {
         if (error instanceof Error) {
