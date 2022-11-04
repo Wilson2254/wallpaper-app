@@ -12,20 +12,20 @@ const props = withDefaults(defineProps<Props>(), {
   imgSource: '',
 })
 
-let isLoaded: Ref<boolean> = ref(false)
-let isImageOpen: Ref<boolean> = ref(false)
+let isLoaded = ref(false)
+let isImageOpen = ref(false)
 
 </script>
 
 <template>
-  <div class="flex justify-center items-center cursor-pointer">
+  <div class="flex justify-center items-center">
     <div v-if="!isLoaded" class="absolute">
       <preloader-block/>
     </div>
     <v-lazy-image
         @load="isLoaded = true"
         @click="isImageOpen = true"
-        class="rounded-md object-cover h-80 w-full object-cover opacity-0 transition blur-md border-2 border-transparent hover:border-gray-400"
+        class="rounded-md object-cover h-80 w-full object-cover opacity-0 transition blur-md border-2 border-transparent hover:border-gray-400 cursor-pointer"
         :class="{'opacity-100 blur-0': isLoaded}" :src=props.imgSource
         v-show="!isImageOpen"
     />
@@ -40,17 +40,16 @@ let isImageOpen: Ref<boolean> = ref(false)
 
 <style scoped>
 .slide-enter-active {
-  transition: all 0.2s ease-out;
+  transition: all 0.5s linear;
 }
 
 .slide-leave-active {
-  transition: all 0.2s ease-out;
+  transition: all 0.5s linear;
 }
 
 .slide-enter-from,
 .slide-leave-to {
-  transform: translateX(-50%) translateY(-100px);
-  left: 50%;
+  transform: translateY(-100px);
 }
 </style>
 

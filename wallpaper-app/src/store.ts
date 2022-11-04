@@ -4,7 +4,7 @@ import {fetchWallPaper, fetchRadioStation} from './api/RequestApi'
 
 export interface State {
     wallPaperData : Object,
-    RadioStationData: Array <String>
+    RadioStationData: Array <Object>
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -27,9 +27,13 @@ export const store = createStore<State>({
             state.wallPaperData = payload
         },
         setRadioStationChannels(state, payload){
-            let channels : Array<String> = []
+            let channels : Array<Object> = []
             payload.channels.forEach((item) => {
-                channels.push(`https://ice1.somafm.com/${item.id}-128-mp3`)
+                channels.push({
+                    src: `https://ice1.somafm.com/${item.id}-128-mp3`,
+                    title: item.title,
+                    desc: item.description
+                })
             })
             state.RadioStationData = channels
         }
