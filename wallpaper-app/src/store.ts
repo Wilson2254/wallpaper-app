@@ -5,6 +5,7 @@ import {fetchWallPaper, fetchRadioStation} from './api/RequestApi'
 export interface State {
     wallPaperData : Object,
     RadioStationData: Array <Object>
+    currentNumberChannel: number
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -12,7 +13,8 @@ export const key: InjectionKey<Store<State>> = Symbol()
 export const store = createStore<State>({
     state: {
         wallPaperData: {},
-        RadioStationData: []
+        RadioStationData: [],
+        currentNumberChannel: 0
     },
     actions: {
         async getWallPaper({ commit }){
@@ -36,10 +38,17 @@ export const store = createStore<State>({
                 })
             })
             state.RadioStationData = channels
+        },
+        changeNumberChannel(state, payload){
+            state.currentNumberChannel += payload
+        },
+        setOtherNumberChannel(state, payload) {
+            state.currentNumberChannel = payload
         }
     },
     getters: {
         listOfPhotos: (state) => state.wallPaperData,
-        listOfRadioChannels: (state) => state.RadioStationData
+        listOfRadioChannels: (state) => state.RadioStationData,
+        currentNumberChannel: (state) => state.currentNumberChannel
     }
 })

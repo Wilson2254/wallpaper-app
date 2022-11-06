@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import VLazyImage from "v-lazy-image"
+import VLazyImage from "../../../node_modules/v-lazy-image"
 import PreloaderBlock from "../../widgets/PreloaderBlock.vue"
 import RadioPlayer from '../RadioPlayer/RadioPlayer.vue'
-import {ref, Ref} from "vue";
+import {ref} from "vue";
 
 interface Props {
   imgSource?: string
