@@ -26,8 +26,8 @@ const isImageOpen = ref(false);
             class="rounded-md object-cover h-80 w-full object-cover opacity-0 transition blur-md border-2 border-transparent hover:border-gray-400 cursor-pointer"
             :class="{ 'opacity-100 blur-0': isLoaded }"
             :src="props.imgSource"
-            @load="isLoaded = true"
             @click="isImageOpen = true"
+            @load="isLoaded = true"
         />
         <fullscreen
             v-model="isImageOpen"
