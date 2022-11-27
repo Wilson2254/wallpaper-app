@@ -22,6 +22,12 @@ getRadioStationChannels();
 </script>
 
 <template>
+    <router-link
+        :to="{ name: 'Authentication' }"
+        class="px-4 pt-4 flex justify-end"
+    >
+        Authentication
+    </router-link>
     <div class="p-4 grid grid-cols-4 gap-4">
         <wall-paper-card
             v-for="photoItem in listOfPhotos"
