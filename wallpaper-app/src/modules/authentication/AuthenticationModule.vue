@@ -1,10 +1,28 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { useVuelidate } from '@vuelidate/core';
+import { required, email, minLength } from '@vuelidate/validators';
 
-const email = ref('test@gamil.com');
-const password = ref('123456');
+const vuelidateState = reactive({
+    authEmail: '',
+    password: '',
+});
+
 const isRegistrationMode = ref(false);
+
+const rules = {
+    authEmail: {
+        required,
+        email,
+    },
+    password: {
+        required,
+        minLength: minLength(6),
+    },
+};
+
+const $v = useVuelidate(rules, vuelidateState);
 
 const authBtnName = computed(() =>
     isRegistrationMode.value ? 'Sign up' : 'Sign in'
@@ -22,13 +40,23 @@ const changeMode = (mode: String): void => {
 const loginAccount = (event): void => {
     const auth = getAuth();
     event.preventDefault();
-    createUserWithEmailAndPassword(auth, email.value, password.value) // need .value because ref()
-        .then((data) => {
-            console.log('Successfully registered!', data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    if (
+        isRegistrationMode.value &&
+        !$v.value.authEmail.$error &&
+        !$v.value.password.$error
+    ) {
+        createUserWithEmailAndPassword(
+            auth,
+            vuelidateState.authEmail,
+            vuelidateState.password
+        )
+            .then((data) => {
+                console.log('Successfully registered!', data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 };
 </script>
 
@@ -47,35 +75,39 @@ const loginAccount = (event): void => {
                 </h1>
                 <form class="space-y-4 md:space-y-6" action="#">
                     <div>
-                        <label
-                            for="email"
+                        <span
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                         >
                             Your email
-                        </label>
+                        </span>
                         <input
-                            id="email"
-                            type="email"
+                            v-model="$v.authEmail.$model"
                             name="email"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            class="border sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="name@company.com"
-                            required=""
+                            :class="{
+                                'dark:border-green-700':
+                                    !$v.authEmail.$error && $v.authEmail.$dirty,
+                                'dark:border-red-700': $v.authEmail.$error,
+                            }"
                         />
                     </div>
                     <div>
-                        <label
-                            for="password"
+                        <span
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                         >
                             Password
-                        </label>
+                        </span>
                         <input
-                            id="password"
+                            v-model="$v.password.$model"
                             type="password"
-                            name="password"
                             placeholder="*********"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required=""
+                            class="border text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            :class="{
+                                'dark:border-green-700':
+                                    !$v.password.$error && $v.password.$dirty,
+                                'dark:border-red-700': $v.password.$error,
+                            }"
                         />
                     </div>
                     <button
@@ -89,7 +121,7 @@ const loginAccount = (event): void => {
                         v-if="isRegistrationMode"
                         class="text-sm font-light text-gray-500 dark:text-gray-400"
                     >
-                        Do you already have an account??
+                        Do you already have an account?
                         <button
                             class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                             @click="changeMode('login')"

@@ -20,7 +20,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const fireBase = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const router = createRouter({
     // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
@@ -29,4 +29,3 @@ const router = createRouter({
 });
 
 createApp(App).use(VueFullscreen).use(store, key).use(router).mount('#app');
-export default fireBase;
