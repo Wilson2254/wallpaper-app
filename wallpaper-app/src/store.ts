@@ -1,41 +1,54 @@
-import {InjectionKey} from 'vue'
-import { createStore, Store } from 'vuex'
-import {fetchWallPaper, fetchRadioStation} from './api/RequestApi'
+import { InjectionKey } from 'vue';
+import { createStore, Store } from 'vuex';
+import { fetchWallPaper, fetchRadioStation } from './api/RequestApi';
 
 export interface State {
-    wallPaperData : Object,
-    RadioStationData: Array <String>
+    wallPaperData: Object;
+    RadioStationData: Array<Object>;
+    currentNumberChannel: number;
 }
 
-export const key: InjectionKey<Store<State>> = Symbol()
+export const key: InjectionKey<Store<State>> = Symbol('');
 
 export const store = createStore<State>({
     state: {
         wallPaperData: {},
-        RadioStationData: []
+        RadioStationData: [],
+        currentNumberChannel: 0,
     },
     actions: {
-        async getWallPaper({ commit }){
-            commit('setWallPaper', await fetchWallPaper())
+        async getWallPaper({ commit }) {
+            commit('setWallPaper', await fetchWallPaper());
         },
-        async getRadioStationChannels({ commit }){
-            commit('setRadioStationChannels', await fetchRadioStation())
-        }
+        async getRadioStationChannels({ commit }) {
+            commit('setRadioStationChannels', await fetchRadioStation());
+        },
     },
     mutations: {
         setWallPaper(state, payload) {
-            state.wallPaperData = payload
+            state.wallPaperData = payload;
         },
-        setRadioStationChannels(state, payload){
-            let channels : Array<String> = []
+        setRadioStationChannels(state, payload) {
+            const channels: Array<Object> = [];
             payload.channels.forEach((item) => {
-                channels.push(`https://ice1.somafm.com/${item.id}-128-mp3`)
-            })
-            state.RadioStationData = channels
-        }
+                channels.push({
+                    src: `https://ice1.somafm.com/${item.id}-128-mp3`,
+                    title: item.title,
+                    desc: item.description,
+                });
+            });
+            state.RadioStationData = channels;
+        },
+        changeNumberChannel(state, payload) {
+            state.currentNumberChannel += payload;
+        },
+        setOtherNumberChannel(state, payload) {
+            state.currentNumberChannel = payload;
+        },
     },
     getters: {
         listOfPhotos: (state) => state.wallPaperData,
-        listOfRadioChannels: (state) => state.RadioStationData
-    }
-})
+        listOfRadioChannels: (state) => state.RadioStationData,
+        currentNumberChannel: (state) => state.currentNumberChannel,
+    },
+});

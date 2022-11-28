@@ -1,10 +1,7 @@
-<script setup lang="ts">
-import MainModule from './modules/main/main.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <MainModule></MainModule>
+    <router-view />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

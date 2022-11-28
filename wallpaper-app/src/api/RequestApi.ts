@@ -1,16 +1,18 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export const fetchWallPaper = async (): Promise<Object> => {
     try {
-        const response = await axios.get('https://picsum.photos/v2/list?page=1&limit=16');
+        const response = await axios.get(
+            'https://picsum.photos/v2/list?page=1&limit=16'
+        );
         return response.data;
     } catch (error) {
         if (error instanceof Error) {
-            console.warn('Error getting wallpaper data:', error.message)
+            console.warn('Error getting wallpaper data:', error.message);
         }
-        return {}
+        return {};
     }
-}
+};
 
 export const fetchRadioStation = async (): Promise<Object> => {
     try {
@@ -18,8 +20,8 @@ export const fetchRadioStation = async (): Promise<Object> => {
         return response.data;
     } catch (error) {
         if (error instanceof Error) {
-            console.warn('Error getting radio channels data:', error.message)
+            console.warn('Error getting radio channels data:', error.message);
         }
-        return {}
+        return {};
     }
-}
+};
