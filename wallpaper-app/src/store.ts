@@ -6,6 +6,7 @@ export interface State {
     wallPaperData: Object;
     RadioStationData: Array<Object>;
     currentNumberChannel: number;
+    isGlobalPreloaderShow: boolean;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol('');
@@ -15,6 +16,7 @@ export const store = createStore<State>({
         wallPaperData: {},
         RadioStationData: [],
         currentNumberChannel: 0,
+        isGlobalPreloaderShow: false,
     },
     actions: {
         async getWallPaper({ commit }) {
@@ -45,10 +47,14 @@ export const store = createStore<State>({
         setOtherNumberChannel(state, payload) {
             state.currentNumberChannel = payload;
         },
+        changeGlobalPreloader(state) {
+            state.isGlobalPreloaderShow = !state.isGlobalPreloaderShow;
+        },
     },
     getters: {
         listOfPhotos: (state) => state.wallPaperData,
         listOfRadioChannels: (state) => state.RadioStationData,
         currentNumberChannel: (state) => state.currentNumberChannel,
+        getGlobalPreloaderState: (state) => state.isGlobalPreloaderShow,
     },
 });
