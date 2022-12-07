@@ -31,7 +31,7 @@ const authAccount = async (): Promise<null> => {
     if (!isUserInfoValid.value) {
         return null;
     }
-    if (isUserInfoValid.value) {
+    if (isRegistrationMode.value) {
         store.commit('changeGlobalPreloader');
         try {
             await createUserWithEmailAndPassword(auth, vuelidateState.authEmail, vuelidateState.password);

@@ -8,7 +8,7 @@ export const fetchWallPaper = async (): Promise<Object> => {
         return response.data;
     } catch (error) {
         if (error instanceof Error) {
-            console.warn('Error getting wallpaper data:', error.message);
+            console.error('Error getting wallpaper data:', error.message);
         }
         return {};
     }
@@ -20,7 +20,7 @@ export const fetchRadioStation = async (): Promise<Object> => {
         return response.data;
     } catch (error) {
         if (error instanceof Error) {
-            console.warn('Error getting radio channels data:', error.message);
+            console.error('Error getting radio channels data:', error.message);
         }
         return {};
     }
